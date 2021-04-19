@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Arg } from 'type-graphql';
 
-import { Tweet } from '../schemas/Tweet';
+import { Tweet, TweetPagination } from '../schemas/Tweet';
 
 import MongoTweet from '../database/schemas/Tweet';
 
@@ -11,6 +11,21 @@ class TweetController {
     const tweets = await MongoTweet.find();
 
     return tweets;
+  }
+
+  @Query(() => TweetPagination)
+  async tweetsPagination(
+    @Arg('page') page: number,
+    @Arg('pageSize') pageSize: number
+  ) {
+    const tweets = await MongoTweet.find()
+      .sort({ createdAt: -1 })
+      .limit(pageSize)
+      .skip(pageSize * page);
+
+    const total = await MongoTweet.countDocuments();
+
+    return { tweets, totalPages: Math.ceil(total / pageSize) };
   }
 
   @Query(() => Tweet, { name: 'tweet' })

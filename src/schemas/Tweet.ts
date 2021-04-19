@@ -23,4 +23,13 @@ class Tweet implements ITweet {
   updatedAt?: Date;
 }
 
-export { Tweet };
+@ObjectType()
+class TweetPagination {
+  @Field(() => [Tweet])
+  tweets: Tweet[];
+
+  @Field()
+  totalPages: number;
+}
+
+export { Tweet, TweetPagination };
