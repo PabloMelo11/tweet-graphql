@@ -4,6 +4,7 @@ import { ApolloServer } from 'apollo-server';
 
 import './database';
 import './database/schemas/Tweet';
+import './database/schemas/User';
 
 import { schema as schemaFn } from './schemas';
 
