@@ -38,7 +38,7 @@ class UserController {
   ) {
     const hashedPassword = await hash(password, 8);
 
-    const userExists = await MongoUser.findOne({ $where: email });
+    const userExists = await MongoUser.findOne({ email });
 
     if (userExists) {
       throw new Error('User already exists!');

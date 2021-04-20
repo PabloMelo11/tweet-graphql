@@ -7,7 +7,7 @@ interface Context {
   token?: string;
 }
 
-const authenticationAssurance: AuthChecker<Context> = ({
+const AuthenticationAssurance: AuthChecker<Context> = ({
   context,
 }): boolean => {
   const authHeader = context.token;
@@ -27,4 +27,4 @@ const authenticationAssurance: AuthChecker<Context> = ({
   }
 };
 
-export { authenticationAssurance };
+export { AuthenticationAssurance };
