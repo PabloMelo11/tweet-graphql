@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Authorized } from 'type-graphql';
 
 import { Tweet, TweetPagination } from '../schemas/Tweet';
 
@@ -7,6 +7,7 @@ import MongoTweet from '../database/schemas/Tweet';
 @Resolver(Tweet)
 class TweetController {
   @Query(() => [Tweet], { name: 'tweets' })
+  @Authorized()
   async find() {
     const tweets = await MongoTweet.find();
 
@@ -14,6 +15,7 @@ class TweetController {
   }
 
   @Query(() => TweetPagination)
+  @Authorized()
   async tweetsPagination(
     @Arg('page') page: number,
     @Arg('pageSize') pageSize: number
@@ -29,6 +31,7 @@ class TweetController {
   }
 
   @Query(() => Tweet, { name: 'tweet' })
+  @Authorized()
   async findById(@Arg('id') id: string) {
     const tweet = await MongoTweet.findById(id);
 
@@ -40,6 +43,7 @@ class TweetController {
   }
 
   @Mutation(() => Tweet, { name: 'createTweet' })
+  @Authorized()
   async create(
     @Arg('author') author: string,
     @Arg('description') description: string
@@ -54,6 +58,7 @@ class TweetController {
   }
 
   @Mutation(() => Tweet, { name: 'updateTweet' })
+  @Authorized()
   async update(
     @Arg('id') id: string,
     @Arg('author') author?: string,
@@ -69,6 +74,7 @@ class TweetController {
   }
 
   @Mutation(() => Tweet)
+  @Authorized()
   async voteTweet(@Arg('id') id: string) {
     const tweet = await MongoTweet.findById(id);
 
@@ -84,6 +90,7 @@ class TweetController {
   }
 
   @Mutation(() => Tweet)
+  @Authorized()
   async downTweet(@Arg('id') id: string) {
     const tweet = await MongoTweet.findById(id);
 

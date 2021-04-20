@@ -11,7 +11,17 @@ import { schema as schemaFn } from './schemas';
 const app = async () => {
   const schema = await schemaFn();
 
-  const server = new ApolloServer({ schema });
+  const server = new ApolloServer({
+    schema,
+    context: ({ req }) => {
+      const context = {
+        req,
+        token: req?.headers.authorization,
+      };
+
+      return context;
+    },
+  });
 
   server.listen(4000, () => console.log('server is running on port 4000'));
 };
